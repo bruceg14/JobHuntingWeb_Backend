@@ -2,6 +2,7 @@ package com.example.back_end;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 @Controller // This means that this class is a Controller
 @CrossOrigin(origins = {"http://localhost:3000", "https://jobhuntingrecord.vercel.app/"})
@@ -42,6 +44,12 @@ public class MainController {
     @GetMapping(path="/getByDate")
     public @ResponseBody Iterable<JobApplication> getByDate(String date) {
         return jobApplicationRepository.findByDate(date);
+    }
+
+    @GetMapping(path="getByCompany")
+    public @ResponseBody Iterable<JobApplication> getByCompany(String company) {
+        Specification<JobApplication> spec = JobApplicationSpecification.companyNameContains(company);
+        return jobApplicationRepository.findAll(spec);
     }
 
 

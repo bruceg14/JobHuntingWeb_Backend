@@ -3,6 +3,8 @@ package com.example.back_end;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import java.util.List;
 
 @Controller // This means that this class is a Controller
 @CrossOrigin(origins = {"http://localhost:3000", "https://jobhuntingrecord.vercel.app/"})
@@ -50,6 +53,16 @@ public class MainController {
     public @ResponseBody Iterable<JobApplication> getByCompany(String company) {
         Specification<JobApplication> spec = JobApplicationSpecification.companyNameContains(company);
         return jobApplicationRepository.findAll(spec);
+    }
+
+    @GetMapping(path="getHighestDate")
+    public @ResponseBody List getHighestDate() {
+       List<List> listOfDates = jobApplicationRepository.findDateWithMostApplications();
+        if (!listOfDates.isEmpty()) {
+            return listOfDates.get(0);
+        } else {
+            return null;
+        }
     }
 
 

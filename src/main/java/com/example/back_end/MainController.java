@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 @Controller // This means that this class is a Controller
-@CrossOrigin(origins = {"http://localhost:3000", "https://jobhuntingrecord.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://jobhuntingrecord.vercel.app/", "http://44.216.166.182/"})
 @RequestMapping(path="/jobHunting")
 public class MainController {
     @Autowired // This means to get the bean called userRepository
